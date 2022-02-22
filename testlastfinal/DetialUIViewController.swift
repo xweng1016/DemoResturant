@@ -33,16 +33,27 @@ class DetialUIViewController: UIViewController {
         print("-------------------")
         print(selectedResturant)
         print(selectedResturant?._id)
-        let zoomLevel = MKCoordinateSpan(latitudeDelta:50, longitudeDelta:50)
-        let centerOfMap = CLLocationCoordinate2D(
-            //latitude: selectedResturant!.address!.coord![0],
-        //longitude: selectedResturant!.address!.coord![1]) //Canada
-            latitude: 27.2046, longitude: 77.4977)
+        let currentLat = selectedResturant!.address!.coord![0]
+        let currentLong = selectedResturant!.address!.coord![1]
+        var zoomLevel = MKCoordinateSpan(latitudeDelta:50, longitudeDelta:50)
+        var centerOfMap = CLLocationCoordinate2D(
+            latitude: 0, longitude: 0)
+        
+        if(-90 <= currentLat && currentLat <= 90 && -180 <= currentLong && currentLong <= 180){
+            zoomLevel = MKCoordinateSpan(latitudeDelta:0.01, longitudeDelta:0.01)
+            centerOfMap = CLLocationCoordinate2D(
+                latitude: currentLat, longitude: currentLong)
+//            centerOfMap = CLLocationCoordinate2D(
+//                latitude: 39.892811, longitude: 32.817501)
+        }
+        
         let visibleRegion = MKCoordinateRegion(center: centerOfMap, span: zoomLevel)
         self.mapView.setRegion(visibleRegion, animated: true)
-//        // Do any additional setup after loading the view.
-        
-        
+ 
+        let pin = MKPointAnnotation()
+        pin.coordinate = centerOfMap
+        pin.title = self.detailNameLabel.text
+        self.mapView.addAnnotation(pin)
         
     }
     

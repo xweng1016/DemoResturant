@@ -30,37 +30,48 @@ class AddViewController: UIViewController {
     
     @IBAction func saveAddedResturant(_ sender: Any) {
         
-        guard let url = URL(string: "https://interview-app-2022.herokuapp.com/api/restaurants") else {
-               print("Error: cannot create URL")
-               return
-           }
-        
-        struct UploadResturantData: Codable{
-            var address: Address?
-            var borough: String?
-            var cuisine: String?
-            var grade: [Grades]?
-            var name: String?
-            var _id: String?
-            
-        }
-
-        struct Address: Codable {
-            var building: String?
-            var coord: [Double]?
-            var street: String?
-            var zipcode: String?
-        }
-
-        struct Grades: Codable{
-            var date: Date?
-            var grade: String?
-            var score: Double?
-        }
-
-           
-//        let _grades = Grades(date: Date.now, grade: gradeAdd.text, score: Double(scoreAdd.text ?? "0"))
-//        let _address = Address(building: buildingAdd.text, coord: []), street: streetAdd.text, zipcode: zipCodeAdd.text)
+//        let json: [String: AnyObject] = [
+//            "address": ["building": buildingAdd.text,
+//                        "coord": [longitudeAdd, latitudeAdd],
+//                        "street": streetAdd.text,
+//                        "zipcode": zipCodeAdd.text],
+//            "borough": boroughAdd.text,
+//            "cusine": cusinieAdd.text,
+//
+//        ]
+//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//        print(jsonData)
+//        guard let url = URL(string: "https://interview-app-2022.herokuapp.com/api/restaurants") else {
+//               print("Error: cannot create URL")
+//               return
+//           }
+//
+//        struct UploadResturantData: Codable{
+//            var address: Address?
+//            var borough: String?
+//            var cuisine: String?
+//            var grade: [Grades]?
+//            var name: String?
+//            var _id: String?
+//
+//        }
+//
+//        struct Address: Codable {
+//            var building: String?
+//            var coord: [Double]?
+//            var street: String?
+//            var zipcode: String?
+//        }
+//
+//        struct Grades: Codable{
+//            var date: Date?
+//            var grade: String?
+//            var score: Double?
+//        }
+//
+//
+//        let _grades:[String:Any] = {"date": Date.now, "grade": gradeAdd.text, "score": Double(scoreAdd.text ?? "0")}
+//        let _address = Address("building": buildingAdd.text, "coord": []), "street": streetAdd.text, zipcode: zipCodeAdd.text)
 //
 //        let _uploadResturantData = UploadResturantData(address: _address, borough: boroughAdd.text, cuisine: cusinieAdd.text, grade: _grades, name: nameAdd.text, _id: UUID().uuidString)
 //           // Add data to the model

@@ -19,7 +19,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData(page: page)
+        fetchData(page: 1)
         // Register cell classes
         // Do any additional setup after loading the view.
         restCollectionView.delegate = self
@@ -55,7 +55,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                     let decodedItem:[ResturantData] = try decoder.decode([ResturantData].self, from: data!)
                     //print(decoder)
                     self.resturantData.append(contentsOf: decodedItem)
-                    print(self.resturantData)
+                    print("Current Contents: \(self.resturantData.count)")
                 }catch let error{
                     print("An error occured during JSON decoding")
                     print(error)
@@ -126,15 +126,24 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-       if(self.restCollectionView.contentOffset.y >= (self.restCollectionView.contentSize.height - self.restCollectionView.bounds.size.height)) {
-           if !isPageRefreshing {
-               isPageRefreshing = true
-               print(page)
-               page = page + 1
-               pageCount += 8
-               fetchData(page: page)
-           }
+       if(self.restCollectionView.contentOffset.y > (self.restCollectionView.contentSize.height - self.restCollectionView.bounds.size.height)) {
            
+           if !self.isPageRefreshing {
+               self.isPageRefreshing = true
+               print(self.page)
+               self.page = self.page + 1
+               self.pageCount += 8
+               self.fetchData(page: self.page)
+           }
+           DispatchQueue.global().async {
+
+               sleep(3)
+               DispatchQueue.main.async {
+                   self.restCollectionView.reloadData()
+                   self.isPageRefreshing = false
+               }
+
+           }
 
        }
    }
