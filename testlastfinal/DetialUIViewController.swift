@@ -12,81 +12,95 @@ import MapKit
 class DetialUIViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var detailNameLabel: UILabel!
-    @IBOutlet weak var buildingLabel: UILabel!
-    @IBOutlet weak var streetLabel: UILabel!
-    @IBOutlet weak var zipcodeLabel: UILabel!
-    @IBOutlet weak var boroughLabel: UILabel!
-    @IBOutlet weak var gradeLabel: UILabel!
+ 
+    @IBOutlet weak var buildingTF: UITextField!
+    @IBOutlet weak var streetTF: UITextField!
+    @IBOutlet weak var zipcodeTF: UITextField!
     
-    var selectedResturant:ResturantData? = nil
-    let geocoder = CLGeocoder();
+    @IBOutlet weak var nameTF: UITextField!
+    @IBOutlet weak var cuisineTF: UITextField!
+    @IBOutlet weak var restaurant_idTF: UITextField!
+    @IBOutlet weak var boroughTF: UITextField!
+    
+    @IBOutlet weak var gradeTF: UITextField!
+    @IBOutlet weak var scoreTF: UITextField!
+    @IBOutlet weak var dateTF: UITextField!
+    var resturant:ResturantData?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        detailNameLabel.text = selectedResturant?.name
-        buildingLabel.text = selectedResturant?.address?.building
-        streetLabel.text = selectedResturant?.address?.street
-        zipcodeLabel.text = selectedResturant?.address?.zipcode
-        boroughLabel.text = selectedResturant?.borough
-        gradeLabel.text = "\(selectedResturant?.grade)"
-        print("-------------------")
-        print(selectedResturant)
-        print(selectedResturant?._id)
-        let currentLat = selectedResturant!.address!.coord![0]
-        let currentLong = selectedResturant!.address!.coord![1]
-        var zoomLevel = MKCoordinateSpan(latitudeDelta:50, longitudeDelta:50)
-        var centerOfMap = CLLocationCoordinate2D(
-            latitude: 0, longitude: 0)
-        
-        if(-90 <= currentLat && currentLat <= 90 && -180 <= currentLong && currentLong <= 180){
-            zoomLevel = MKCoordinateSpan(latitudeDelta:0.01, longitudeDelta:0.01)
-            centerOfMap = CLLocationCoordinate2D(
-                latitude: currentLat, longitude: currentLong)
-//            centerOfMap = CLLocationCoordinate2D(
-//                latitude: 39.892811, longitude: 32.817501)
-        }
-        
-        let visibleRegion = MKCoordinateRegion(center: centerOfMap, span: zoomLevel)
-        self.mapView.setRegion(visibleRegion, animated: true)
- 
-        let pin = MKPointAnnotation()
-        pin.coordinate = centerOfMap
-        pin.title = self.detailNameLabel.text
-        self.mapView.addAnnotation(pin)
-        
-    }
-    
-    @IBAction func deleteResturant(_ sender: Any) {
-        let box = UIAlertController(title: "Delete Resturant", message: "Are you sure you want to delete?", preferredStyle: .actionSheet)
-        
-        // 1b. Add some buttons
-        
-        box.addAction(UIAlertAction(title: "Yes", style: .default, handler: {_ in
-            self.deleteData()
-        }
-                                   ))
-        box.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        
-        // 2. Show the popup
-        self.present(box, animated: true)
-
-    }
-    
-    @IBAction func updateProfile(_ sender: Any) {
-        guard let detailPage = storyboard?.instantiateViewController(withIdentifier: "updateViewPage") as? UIViewController else{
-            print("Error")
+        guard let resturant = resturant else {
             return
         }
+        self.title = resturant.name
+        //详情不能点击
+        buildingTF.isUserInteractionEnabled = false
+        streetTF.isUserInteractionEnabled = false
+        zipcodeTF.isUserInteractionEnabled = false
+        nameTF.isUserInteractionEnabled = false
+        cuisineTF.isUserInteractionEnabled = false
+        restaurant_idTF.isUserInteractionEnabled = false
+        boroughTF.isUserInteractionEnabled = false
+        gradeTF.isUserInteractionEnabled = false
+        scoreTF.isUserInteractionEnabled = false
+        dateTF.isUserInteractionEnabled = false
         
+        buildingTF.text = resturant.address?.building
+        streetTF.text = resturant.address?.street
+        zipcodeTF.text = resturant.address?.zipcode
 
-        show(detailPage, sender:self)
+        nameTF.text = resturant.name
+        cuisineTF.text = resturant.cuisine
+        restaurant_idTF.text = resturant.restaurant_id
+        boroughTF.text = resturant.borough
+        if let grade = resturant.grades?.first {
+            gradeTF.text = grade.grade
+            scoreTF.text = String(format: "%.0lf", grade.score ?? 0)
+            dateTF.text = grade.date
+        }
+        
+        if let address = resturant.address{
+            let currentLat = address.coord?.first ?? 0
+            let currentLong = address.coord!.last ?? 0
+            var centerOfMap = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+            if(-90 <= currentLat && currentLat <= 90 && -180 <= currentLong && currentLong <= 180) {
+                let coordinate = CLLocationCoordinate2D.init(latitude: currentLat , longitude: currentLong)
+                centerOfMap = CLLocationCoordinate2D(latitude: currentLat, longitude: currentLong)
+                centerMapOnLocation(with: coordinate)
+            }
+            let pin = MKPointAnnotation()
+            pin.coordinate = centerOfMap
+            pin.title = resturant.name
+            self.mapView.addAnnotation(pin)
+            
+        }
     }
     
+    private func centerMapOnLocation(with coordinate: CLLocationCoordinate2D) {
+      let regionRadius: CLLocationDistance = 10000
+      // 设置地图显示区域
+      let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+      mapView.setRegion(coordinateRegion, animated: true)
+    }
     
+    @IBAction func didClickDelete(_ sender: Any) {
+        let box = UIAlertController(title: "Delete Resturant", message: "Are you sure you want to delete?", preferredStyle: .actionSheet)
+        // 1b. Add some buttons
+        box.addAction(UIAlertAction(title: "Yes", style: .default, handler: {_ in
+            self.deleteData()
+        }))
+        box.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        // 2. Show the popup
+        self.present(box, animated: true)
+    }
+   
     func deleteData(){
-
-        guard let url = URL(string: "https://interview-app-2022.herokuapp.com/api/restaurants/\(selectedResturant!._id!)") else {
+        guard let resturant = resturant,
+        let id = resturant._id else {
+            return
+        }
+        NetAnimationView.show()
+        guard let url = URL(string: "https://interview-app-2022.herokuapp.com/api/restaurants/\(id)") else {
                   print("Error: cannot create URL")
                   return
               }
@@ -94,39 +108,40 @@ class DetialUIViewController: UIViewController {
               var request = URLRequest(url: url)
               request.httpMethod = "DELETE"
               URLSession.shared.dataTask(with: request) { data, response, error in
-                  guard error == nil else {
+                  NetAnimationView.diss()
+                  if let error = error {
                       print("Error: error calling DELETE")
-                      print(error!)
+                      print(error)
+                      showAlertVC(message: "Delete error")
                       return
                   }
-                  guard let data = data else {
+                  guard let _ = data else {
                       print("Error: Did not receive data")
+                      showAlertVC(message: "Delete error")
                       return
                   }
+                  
                   guard let response = response as? HTTPURLResponse, (200 ..< 299) ~= response.statusCode else {
                       print("Error: HTTP request failed")
+                      showAlertVC(message: "Delete error")
                       return
                   }
-                  do {
-                      guard let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-                          print("Error: Cannot convert data to JSON")
-                          return
-                      }
-                  } catch {
-                      print("Error: Trying to convert JSON data to string")
-                      return
+                  DispatchQueue.main.async {
+                      showAlertVC(message: "Delete success")
+                      NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: "RefreshHomeData"), object: nil)
                   }
+                 
               }.resume()
 
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "toUpdate",
+           let vc = segue.destination as? UpdateViewController{
+            vc.resturant = self.resturant
+        }
     }
-    */
-
 }
+
+
+

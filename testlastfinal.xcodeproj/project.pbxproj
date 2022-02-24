@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9011EB9027C3024D001920E1 /* UpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9011EB8F27C3024D001920E1 /* UpdateViewController.swift */; };
-		9011EB9227C3025D001920E1 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9011EB9127C3025D001920E1 /* AddViewController.swift */; };
 		90439F1D27C2C48500661BB6 /* DetialUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90439F1C27C2C48500661BB6 /* DetialUIViewController.swift */; };
+		9062F4E927C7345200E19E7C /* Fun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062F4E827C7345200E19E7C /* Fun.swift */; };
+		9062F4EB27C7346600E19E7C /* NetAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062F4EA27C7346600E19E7C /* NetAnimationView.swift */; };
 		9092EB2027C292D100442E98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9092EB1F27C292D100442E98 /* AppDelegate.swift */; };
 		9092EB2227C292D100442E98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9092EB2127C292D100442E98 /* SceneDelegate.swift */; };
 		9092EB2427C292D100442E98 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9092EB2327C292D100442E98 /* ViewController.swift */; };
@@ -22,8 +23,9 @@
 
 /* Begin PBXFileReference section */
 		9011EB8F27C3024D001920E1 /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
-		9011EB9127C3025D001920E1 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		90439F1C27C2C48500661BB6 /* DetialUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetialUIViewController.swift; sourceTree = "<group>"; };
+		9062F4E827C7345200E19E7C /* Fun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fun.swift; sourceTree = "<group>"; };
+		9062F4EA27C7346600E19E7C /* NetAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetAnimationView.swift; sourceTree = "<group>"; };
 		9092EB1C27C292D100442E98 /* testlastfinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testlastfinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9092EB1F27C292D100442E98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9092EB2127C292D100442E98 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,8 @@
 		9092EB1E27C292D100442E98 /* testlastfinal */ = {
 			isa = PBXGroup;
 			children = (
+				9062F4EA27C7346600E19E7C /* NetAnimationView.swift */,
+				9062F4E827C7345200E19E7C /* Fun.swift */,
 				9092EB1F27C292D100442E98 /* AppDelegate.swift */,
 				9092EB2127C292D100442E98 /* SceneDelegate.swift */,
 				9092EB2327C292D100442E98 /* ViewController.swift */,
@@ -77,7 +81,6 @@
 				9092EB3527C298F300442E98 /* ResturantData.swift */,
 				90439F1C27C2C48500661BB6 /* DetialUIViewController.swift */,
 				9011EB8F27C3024D001920E1 /* UpdateViewController.swift */,
-				9011EB9127C3025D001920E1 /* AddViewController.swift */,
 			);
 			path = testlastfinal;
 			sourceTree = "<group>";
@@ -155,10 +158,11 @@
 			files = (
 				9092EB3627C298F300442E98 /* ResturantData.swift in Sources */,
 				90439F1D27C2C48500661BB6 /* DetialUIViewController.swift in Sources */,
-				9011EB9227C3025D001920E1 /* AddViewController.swift in Sources */,
+				9062F4EB27C7346600E19E7C /* NetAnimationView.swift in Sources */,
 				9092EB2427C292D100442E98 /* ViewController.swift in Sources */,
 				9092EB3427C2943A00442E98 /* RestCollecitonCell.swift in Sources */,
 				9092EB2027C292D100442E98 /* AppDelegate.swift in Sources */,
+				9062F4E927C7345200E19E7C /* Fun.swift in Sources */,
 				9011EB9027C3024D001920E1 /* UpdateViewController.swift in Sources */,
 				9092EB2227C292D100442E98 /* SceneDelegate.swift in Sources */,
 			);
